@@ -23,6 +23,13 @@ export default function Form() {
 
         const data = await res.json();
         alert(data.message);
+        setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            github: "",
+            linkedin: "",
+        });
     };
 
     return (

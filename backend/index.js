@@ -8,36 +8,25 @@ app.use(express.json());
 
 const filePath = "data.json";
 
-// ✅ Route to save data
+// ✅ Save data to JSON file
 app.post("/api/save", (req, res) => {
-    const newData = req.body;
+    const data = fs.existsSync(filePath)
+        ? JSON.parse(fs.readFileSync(filePath))
+        : [];
 
-    // ✅ Check if JSON file exists
-    let existingData = [];
-    if (fs.existsSync(filePath)) {
-        const fileData = fs.readFileSync(filePath, "utf8");
-        existingData = fileData ? JSON.parse(fileData) : [];
-    }
+    data.push(req.body);
 
-    // ✅ Add new data
-    existingData.push(newData);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-    // ✅ Save back to JSON file
-    fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2));
-
-    res.json({ success: true, message: "Data saved successfully!" });
+    res.json({ message: "Saved ✅" });
 });
 
-// ✅ Route to get all saved data
+// ✅ Retrieve data from JSON file
 app.get("/api/data", (req, res) => {
-    if (fs.existsSync(filePath)) {
-        const fileData = fs.readFileSync(filePath, "utf8");
-        res.json(JSON.parse(fileData));
-    } else {
-        res.json([]);
-    }
+    if (!fs.existsSync(filePath)) return res.json([]);
+
+    res.json(JSON.parse(fs.readFileSync(filePath)));
 });
 
-app.listen(4000, () => {
-    console.log("✅ Server running at http://localhost:4000");
-});
+
+app.listen(4000, () => console.log("✅ Server: http://localhost:4000"));
