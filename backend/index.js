@@ -44,37 +44,41 @@ app.use(express.json());
 
 // ✅ Supabase Config
 const supabase = createClient(
-  "https://wesjokuhvlelhvzirfwf.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc2pva3VodmxlbGh2emlyZndmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MjU0OTksImV4cCI6MjA3NjAwMTQ5OX0.NYgIs5YAnr9cWvRCBz3l7g4rLdjCa3M7uQFllxUi2sw"
+    "https://wesjokuhvlelhvzirfwf.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc2pva3VodmxlbGh2emlyZndmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0MjU0OTksImV4cCI6MjA3NjAwMTQ5OX0.NYgIs5YAnr9cWvRCBz3l7g4rLdjCa3M7uQFllxUi2sw"
 );
 
 // ✅ Save form data to Supabase
 app.post("/api/save", async (req, res) => {
-  const { first_name, last_name, email, github, linkedin } = req.body;
+    const { first_name, last_name, email, linkedin } = req.body;
+    
+    console.log("Received body:", req.body);
 
-  const { data, error } = await supabase
-    .from("formdata")
-    .insert([{ first_name, last_name, email, github, linkedin }]);
+    const { data, error } = await supabase
+        .from("formdata")
+        .insert([{ first_name, last_name, email, linkedin }]);
 
-  if (error) {
-    console.log("Insert Error:", error);
-    return res.status(400).json({ success: false, error });
-  }
+    if (error) {
+        console.log("Insert Error:", error);
+        return res.status(400).json({ success: false, error });
+    }
 
-  res.json({ success: true, message: "Saved to Supabase ✅", data });
+    res.json({ success: true, message: "Saved to Supabase ✅", data });
 });
 
 // ✅ Get all form data
 app.get("/api/data", async (req, res) => {
-  const { data, error } = await supabase.from("formdata").select("*");
+    const { data, error } = await supabase.from("formdata").select("*");
 
-  if (error) {
-    return res.status(400).json({ success: false, error });
-  }
+    if (error) {
+        return res.status(400).json({ success: false, error });
+    }
 
-  res.json(data);
+    res.json(data);
 });
 
 app.listen(4000, () =>
-  console.log("✅ Server Running at http://localhost:4000")
+    console.log("✅ Server Running at http://localhost:4000")
 );
+
+

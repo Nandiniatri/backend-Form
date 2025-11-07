@@ -3,10 +3,9 @@ import "./Form.css";
 
 export default function Form() {
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        github: "",
         linkedin: "",
     });
 
@@ -24,8 +23,8 @@ export default function Form() {
         const data = await res.json();
         alert(data.message);
         setFormData({
-            firstName: "",
-            lastName: "",
+            first_name: "",
+            last_name: "",
             email: "",
             github: "",
             linkedin: "",
@@ -46,7 +45,7 @@ export default function Form() {
                         type="text"
                         name="firstName"
                         placeholder="Enter first name"
-                        value={formData.firstName}
+                        value={formData.first_name}
                         onChange={handleChange}
                     />
 
@@ -55,7 +54,7 @@ export default function Form() {
                         type="text"
                         name="lastName"
                         placeholder="Enter last name"
-                        value={formData.lastName}
+                        value={formData.last_name}
                         onChange={handleChange}
                     />
 
