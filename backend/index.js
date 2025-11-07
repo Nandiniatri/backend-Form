@@ -50,13 +50,16 @@ const supabase = createClient(
 
 // ✅ Save form data to Supabase
 app.post("/api/save", async (req, res) => {
-    const { first_name, last_name, email, linkedin } = req.body;
-    
+    const { firstName, lastName, email, linkedin } = req.body;
+
     console.log("Received body:", req.body);
 
     const { data, error } = await supabase
         .from("formdata")
-        .insert([{ first_name, last_name, email, linkedin }]);
+        .insert([{
+            first_name: firstName
+            , last_name: lastName, email, linkedin
+        }]);
 
     if (error) {
         console.log("Insert Error:", error);
